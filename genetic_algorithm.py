@@ -1,5 +1,6 @@
 import string
 import random
+import gc
 
 from .config import POPULATION_SIZE, ANSWER, GENOME_SIZE, MUTATION_RATE
 
@@ -29,6 +30,7 @@ class Population:
 
     def choose_parents(self):
         parents = random.choices(
+            # TODO: square weights?
             self.population, weights=[i.score for i in self.population], k=2
         )
         return parents[0], parents[1]
@@ -59,6 +61,7 @@ class Population:
             baby = Individual(baby_genome)
             new_population.append(baby)
         self.population = new_population
+        gc.collect(); gc.collect()
 
     def best_individual(self):
         best_score = -1000

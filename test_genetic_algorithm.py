@@ -74,8 +74,6 @@ def test_mutation():
     newer_genome = pop.mutate(start_genome, mutation_rate=0.0)
     assert start_genome == newer_genome
 
-# def test_get_best_individual():
-
 def test_evolution():
     pop = Population()
     init_score = sum([i.score for i in pop.population])
@@ -96,7 +94,7 @@ def test_best_individual():
 
 def test_integration():
     pop = Population()
-    for _ in range(100000):
+    for i in range(1000):
         pop.evolve()
     best, _ = pop.best_individual()
     assert best.genome == ANSWER
