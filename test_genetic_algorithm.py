@@ -2,6 +2,7 @@ from .genetic_algorithm import Population, Individual, GENOME
 from .config import POPULATION_SIZE, ANSWER, GENOME_SIZE
 import random
 
+
 def test_create_population_class():
     pop = Population()
     assert isinstance(pop, Population)
@@ -65,7 +66,6 @@ def test_reproduction():
 
 def test_mutation():
     pop = Population()
-    # ind = Individual()
     start_genome = [random.choice(GENOME) for _ in range(GENOME_SIZE)]
     new_genome = pop.mutate(start_genome, mutation_rate=1.0)
     assert type(new_genome) == list
@@ -74,3 +74,29 @@ def test_mutation():
     newer_genome = pop.mutate(start_genome, mutation_rate=0.0)
     assert start_genome == newer_genome
 
+# def test_get_best_individual():
+
+def test_evolution():
+    pop = Population()
+    init_score = sum([i.score for i in pop.population])
+    for _ in range(100):
+        pop.evolve()
+    final_score = sum([i.score for i in pop.population])
+    assert init_score < final_score
+
+def test_best_individual():
+    pop = Population()
+    pop.population[0].genome = ANSWER
+    for ind in pop.population[1:]:
+        ind.genome = ["X"] * GENOME_SIZE
+    for _ in range(10):
+        pop.evolve()
+    best, worst = pop.best_individual()
+    assert best.score >= worst.score
+
+def test_integration():
+    pop = Population()
+    for _ in range(100000):
+        pop.evolve()
+    best, _ = pop.best_individual()
+    assert best.genome == ANSWER
