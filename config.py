@@ -1,0 +1,3 @@
+POPULATION_SIZE=100
+ANSWER=list("Hello world")
+GENOME_SIZE=len(ANSWER)
