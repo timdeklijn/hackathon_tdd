@@ -9,8 +9,10 @@ def test_create_population_class():
 
 
 def test_create_individual_class():
-    pop = Individual()
-    assert isinstance(pop, Individual)
+    ind = Individual()
+    assert isinstance(ind, Individual)
+    assert ind.score != None
+    # TODO: test genome init
 
 
 def test_create_individual_list():
@@ -43,12 +45,9 @@ def test_score_genomes():
     score = ind.calculate_score()
     assert score == 1
 
-# [ind, ind, ind, ]
-# [1, 0.5, 0.3, 0.1]
-
-# find parents 
-# p1, p2
 
 def test_choose_parents():
     pop = Population()
-    assert 1 == 2
+    a, b = pop.choose_parents()
+    assert isinstance(a, Individual)
+    assert isinstance(b, Individual)
