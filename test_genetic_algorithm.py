@@ -1,7 +1,6 @@
 from .genetic_algorithm import Population, Individual, GENOME
 from .config import POPULATION_SIZE, ANSWER, GENOME_SIZE
-
-
+import random
 
 def test_create_population_class():
     pop = Population()
@@ -35,6 +34,7 @@ def test_init_individual():
     assert type(ind.genome) == list
     assert len(ind.genome) == GENOME_SIZE
 
+
 def test_score_genomes():
     ind = Individual()
     # TODO: write test to check length
@@ -51,3 +51,26 @@ def test_choose_parents():
     a, b = pop.choose_parents()
     assert isinstance(a, Individual)
     assert isinstance(b, Individual)
+
+
+def test_reproduction():
+    pop = Population()
+    a, b = pop.choose_parents()
+    new_genome = pop.reproduce(a, b)
+    assert type(new_genome) == list
+    assert len(new_genome) == GENOME_SIZE
+    for i, gene in enumerate(new_genome):
+        assert gene == a.genome[i] or gene == b.genome[i]
+
+
+def test_mutation():
+    pop = Population()
+    # ind = Individual()
+    start_genome = [random.choice(GENOME) for _ in range(GENOME_SIZE)]
+    new_genome = pop.mutate(start_genome, mutation_rate=1.0)
+    assert type(new_genome) == list
+    assert len(new_genome) == GENOME_SIZE
+    assert new_genome != start_genome
+    newer_genome = pop.mutate(start_genome, mutation_rate=0.0)
+    assert start_genome == newer_genome
+

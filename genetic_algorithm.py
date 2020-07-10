@@ -29,3 +29,21 @@ class Population:
             self.population, weights=[i.score for i in self.population], k=2
         )
         return parents[0], parents[1]
+
+    def reproduce(self, a, b):
+        new_genome = []
+        for i in range(GENOME_SIZE):
+            if random.random() < 0.5:
+                new_genome.append(a.genome[i])
+            else:
+                new_genome.append(b.genome[i])
+        return new_genome
+
+    def mutate(self, genome, mutation_rate):
+        new_genome = []
+        for i in range(GENOME_SIZE):
+            if random.random() < mutation_rate:
+                new_genome.append(random.choice(GENOME))
+            else:
+                new_genome.append(genome[i])
+        return new_genome
